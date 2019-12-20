@@ -1,0 +1,22 @@
+language: generic
+
+services:
+    - docker
+
+before_install:
+    - echo "Docker pull"
+    - docker pull ubuntu:latest
+
+before_script:
+    - echo "Triggered from PR - $TRAVIS_PULL_REQUEST"
+    - whoami
+    - pwd
+    - ls -la
+    - chmod 777 $PWD
+
+script:
+    - echo "Run static analysis"
+    - docker run -t --rm --privileged -v $PWD:$PWD -w $PWD ubuntu:latest ls
+
+after_success:
+    - echo "Finished"
